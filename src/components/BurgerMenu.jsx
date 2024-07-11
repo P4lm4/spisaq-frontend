@@ -3,8 +3,8 @@ import React, { useState } from "react";
 function BurgerMenu() {
 
     let [open, setOpen] = useState(false);
-    const [ListofNotes, setListofNotes] = useState([{name: "Posao", date: "12-04-2022"}, {name: "Rekreacija", date: "12-04-2022"}, {name: "Ishrana", date: "12-04-2022"}]);
-    const Notes = ListofNotes.map((note) => <li><a className="" href=""></a>{note.name} {note.date}<a/> </li>)
+    const [ListofNotes, setListofNotes] = useState([{id: 1, name: "Posao", date: "12-04-2022"}, {id: 2, name: "Rekreacija", date: "12-04-2022"}, {id: 3, name: "Ishrana", date: "12-04-2022"}]);
+    const Notes = ListofNotes.map((note) => <li><a href={note.id}>{note.name} {note.date}</a></li>)
 
     return(
         <div>

@@ -1,4 +1,4 @@
-import { Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 //pages
 import Home from "./_root/pages/Home"
@@ -15,16 +15,14 @@ import RootLayout from "./_root/RootLayout"
 function App() {
 
   return (
-    
-      <Router>
-        
-
-        <Routes path="/" element={<RootLayout />}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
           <Route index element={<Home />} />
           <Route path="content" element={<Content />} />
-        </Routes>
-    </Router>
-    
+        </Route>
+      </Routes>
+    </BrowserRouter>
 
   )
 }

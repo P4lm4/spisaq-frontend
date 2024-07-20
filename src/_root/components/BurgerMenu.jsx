@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom'
 
 function BurgerMenu() {
 
     let [open, setOpen] = useState(false);
     const [ListofNotes, setListofNotes] = useState([{id: 1, name: "Posao"}, {id: 2, name: "Rekreacija"}, {id: 3, name: "Ishrana"}]);
-    const Notes = ListofNotes.map((note) => <Link to={note.id}><a key={note.id} href={note.id}>{note.name}</a></Link>)
+    const Notes = ListofNotes.map((note) => <Link to={note.id}><p key={note.id}>{note.name}</p></Link>)
 
     return(
         <div>

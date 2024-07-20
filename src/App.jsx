@@ -1,23 +1,31 @@
-import Home from "./Home"
-import BurgerMenu from "./components/BurgerMenu"
-import Nav from "./components/Nav"
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { Router, Routes, Route } from "react-router-dom"
+
+//pages
+import Home from "./_root/pages/Home"
+import Login from "./_auth/pages/Login"
+import Register from "./_auth/pages/Register"
+import Content from "./_root/pages/Content"
+
+import RootLayout from "./_root/RootLayout"
+
+
+
 
 
 function App() {
 
   return (
-    <BrowserRouter>
-    <div className="App h-screen bg-yellow-200">
-      <Nav />
-      <BurgerMenu />
-      <div className="Content">
-        <Routes>
-          <Route path="/" element={<Home />} />          
+    
+      <Router>
+        
+
+        <Routes path="/" element={<RootLayout />}>
+          <Route index element={<Home />} />
+          <Route path="content" element={<Content />} />
         </Routes>
-      </div>
-    </div>
-    </BrowserRouter>
+    </Router>
+    
+
   )
 }
 

@@ -1,18 +1,17 @@
 import React from "react";
-import CardNote from "./components/CardNote";
-import AddCardNote from "./components/AddCardNote";
+import AddCardNote from "../components/AddCardNote";
+import CardNote from "../components/CardNote";
 
 function Home() {
 
     return(
-        <div className="flex flex-wrap items-center justify-around m-14">
+        <div className="flex flex-wrap items-center justify-around">
             <AddCardNote />
             <CardNote />
             <CardNote />
             <CardNote />
             <CardNote />
             <CardNote />
-
         </div>
     )
 }

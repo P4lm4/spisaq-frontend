@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function EditableLabel() {
   
   const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState('Click to edit');
+  const [text, setText] = useState('Click to edit a name');
 
   const handleTextClick = () => {
     setIsEditing(true);

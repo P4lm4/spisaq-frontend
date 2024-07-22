@@ -5,7 +5,7 @@ function BurgerMenu() {
 
     let [open, setOpen] = useState(false);
     const [ListofNotes, setListofNotes] = useState([{id: 1, name: "Posao"}, {id: 2, name: "Rekreacija"}, {id: 3, name: "Ishrana"}]);
-    const Notes = ListofNotes.map((note) => <Link key={note.id} to={`/content${note.id}`}><li>{note.name}</li></Link>)
+    const Notes = ListofNotes.map((note) => <Link key={note.id} to={`/content/${note.id}`}><li>{note.name}</li></Link>)
 
     return(
         <div>

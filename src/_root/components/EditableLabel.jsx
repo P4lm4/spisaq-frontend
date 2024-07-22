@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function EditableLabel() {
+function EditableLabel(props) {
+  const {text}=props;
   
   const [isEditing, setIsEditing] = useState(false);
-  const [text, setText] = useState('Click to edit a name');
+  const [text2, setText2] = useState(text);
+  const [newText, setNewText] = useState('');
+
+  useEffect(() => {
+    if(!isEditing && newText.trim() !== "") {
+        setText2(newText);
+    }
+    else if (isEditing) {
+      setNewText(text);
+    }
+    setText2(text)
+  }, [isEditing, text])
 
   const handleTextClick = () => {
     setIsEditing(true);
@@ -11,7 +23,7 @@ function EditableLabel() {
 
 
   const handleInputChange = (e) => {
-    setText(e.target.value);
+    setNewText(e.target.value);
   };
 
   const handleBlur = () => {
@@ -31,14 +43,14 @@ return (
       <input
         className="text-black font-bold"
         type="text"
-        value={text}
+        value={newText}
         onChange={handleInputChange}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         autoFocus
       />
     ) : (
-      <span className="font-bold" onClick={handleTextClick}>{text}</span>
+      <span className="font-bold" onClick={handleTextClick}>{text2}</span>
     )}
   </div>
 )

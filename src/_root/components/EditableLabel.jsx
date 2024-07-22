@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from "react";
 
 function EditableLabel(props) {
-  const {text}=props;
+  //const {text}=props;
   
   const [isEditing, setIsEditing] = useState(false);
-  const [text2, setText2] = useState(text);
-  const [newText, setNewText] = useState('');
+  const [realText, setRealText] = useState(props.text);
+  const [editingText, setEditingText] = useState('');
+
+
 
   useEffect(() => {
-    if(!isEditing && newText.trim() !== "") {
-        setText2(newText);
+    // Editing is finished, is there any text?
+    if(!isEditing && editingText.trim() !== "") {
+        setRealText(editingText);
     }
+    // Editing is starting
     else if (isEditing) {
-      setNewText(text);
+      setEditingText(realText);
     }
-    setText2(text)
-  }, [isEditing, text])
+  }, [isEditing])
+
+  // Text changed from the outside via props
+  useEffect(() => {
+    setIsEditing(false);
+    setRealText(props.text);
+  }, [props.text])
 
   const handleTextClick = () => {
     setIsEditing(true);
@@ -23,7 +32,7 @@ function EditableLabel(props) {
 
 
   const handleInputChange = (e) => {
-    setNewText(e.target.value);
+    setEditingText(e.target.value);
   };
 
   const handleBlur = () => {
@@ -43,14 +52,14 @@ return (
       <input
         className="text-black font-bold"
         type="text"
-        value={newText}
+        value={editingText}
         onChange={handleInputChange}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         autoFocus
       />
     ) : (
-      <span className="font-bold" onClick={handleTextClick}>{text2}</span>
+      <span className="font-bold" onClick={handleTextClick}>{realText}</span>
     )}
   </div>
 )

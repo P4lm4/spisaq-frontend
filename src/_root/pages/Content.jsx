@@ -10,9 +10,7 @@ function Content() {
   const [listId, setListId] = useState(id);
 
   useEffect(() => {
-    
     setListId(id);
-    console.log(listId);
   }, [id])
   
 
@@ -55,8 +53,7 @@ function Content() {
       <div className="flex flex-col items-center justify-between w-auto h-auto p-10 rounded-xl bg-black">
         <div className='basis-1/3 flex flex-col items-center justify-center'>
           <div className='text-white'>
-          <EditableLabel text={listId} />
-          {listId}
+          <EditableLabel text={`List ${listId}`} />
           </div>
 
           <div className=''>

@@ -21,7 +21,7 @@ function Nav () {
                     Nick
                 </p>
                 <p>
-                    <a href="" className="hover:text-gray-300 duration-500">Sign out</a>
+                    <a href="http://localhost:5175/auth" className="hover:text-gray-300 duration-500">Sign out</a>
                 </p>
             </div>
             <div className="text-4xl text-amber-400 mx-1 pt-2">

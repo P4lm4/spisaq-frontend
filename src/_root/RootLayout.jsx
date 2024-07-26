@@ -4,10 +4,10 @@ import Nav from './components/Nav'
 
 function RootLayout() {
   return (
-    <div className="h-full">
+    <div className="h-full bg-yellow-200">
       <Nav />
-      <section className="h-full">
-        <Outlet className="h-full" />
+      <section>
+        <Outlet />
       </section>
     </div>
   )

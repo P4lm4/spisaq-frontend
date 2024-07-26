@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios';
+import { setToken } from '../../App';
+import UserContext from '../../UserContext';
 
 
 async function loginUser(username, password) {
@@ -17,36 +18,20 @@ async function loginUser(username, password) {
     .catch(err => console.log(err))
 }
 
-async function getMyself(token) {
-
-  return fetch('http://localhost:8080/api/user/myself', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
-    
-  })
-    .then(data => data.json())
-    .catch(err => console.log(err))
-}
-
-
 function Login() {
 const [username, setUsername] = useState();
 const [password, setPassword] = useState();
-const [newToken, setNewToken] = useState();
 const navigate = useNavigate();
+const { setUser } = useContext(UserContext);
 
 
 const handleSubmit = async e => {
+  
   e.preventDefault();
   const data = await loginUser(username, password);
   
-  console.log(data);
-  
-  const user = await getMyself(data.token);
-  console.log(user);
+  setToken(data.token);
+  setUser(data.user);
 
   navigate('/');
 }
@@ -75,5 +60,9 @@ const handleSubmit = async e => {
     </div>
   )
 }
-
+/*
+Login.propTypes = {
+  setToken: PropTypes.func.isRequired
+}
+*/
 export default Login

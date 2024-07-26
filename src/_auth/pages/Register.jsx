@@ -32,7 +32,7 @@ function Register() {
       navigate('/auth');
     }
     else {
-      alert("Ne poklapaju se sifra i potvrdna sifra, molim ukucajte ponovo! ")
+      alert("Passwords do not match ! ")
     }
 
 

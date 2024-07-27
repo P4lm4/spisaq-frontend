@@ -2,38 +2,14 @@ import React, { useState, useEffect } from "react";
 import { authFetch } from "../../App";
 
 function EditableLabel(props) {
-  //const {text}=props;
   const [isEditing, setIsEditing] = useState(false);
-  const [realText, setRealText] = useState(props.text);
-  const [editingText, setEditingText] = useState('');
 
-
-
-  useEffect(() => {
-    // Editing is finished, is there any text?
-    if(!isEditing && editingText.trim() !== "") {
-        setRealText(editingText);
-    }
-    // Editing is starting
-    else if (isEditing) {
-      setEditingText(realText);
-    }
-  }, [isEditing])
-
-  // Text changed from the outside via props
-  useEffect(() => {
-    setIsEditing(false);
-    setRealText(props.text);
-
-  }, [props.text])
+  const handleInputChange = (e) => {
+    props.onTextChange(e.target.value);
+  };
 
   const handleTextClick = () => {
     setIsEditing(true);
-  };
-
-
-  const handleInputChange = (e) => {
-    setEditingText(e.target.value);
   };
 
   const handleBlur = () => {
@@ -53,14 +29,14 @@ return (
       <input
         className="text-black font-bold m-1"
         type="text"
-        value={editingText}
+        value={props.text}
         onChange={handleInputChange}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
         autoFocus
       />
     ) : (
-      <span className="font-bold" onClick={handleTextClick}>{realText}</span>
+      <span className="font-bold" onClick={handleTextClick}>{props.text}</span>
     )}
   </div>
 )

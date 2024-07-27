@@ -28,7 +28,7 @@ export function getLists() {
   return JSON.parse(sessionStorage.getItem('lists'));
 }
 */
-export async function authFetch(Url, data = null, method = 'GET') {
+export async function authFetch(Url, method = 'GET', data = null) {
 
   return fetch('http://localhost:8080/api/' + Url, {
     method: method,

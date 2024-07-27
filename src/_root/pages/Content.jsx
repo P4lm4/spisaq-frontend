@@ -2,37 +2,8 @@ import React, { useEffect, useState } from 'react'
 import EditableLabel from '../components/EditableLabel';
 import { useParams } from 'react-router-dom';
 import { authFetch } from '../../App';
+import Checkbox from '../components/Checkedbox';
 
-/*
-async function createList(name, color) {
-  requestData = {
-    "title": name,
-    "color": color
-  };
-  return fetch('http://localhost:8080/api/list', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(requestData)
-  })
-    .then(data => data.json())
-    .catch(err => console.log(err))
-}
-*/
-
-// authFetch('list', {"title": name, "color": color}, 'POST')
-/*
-async function addItem(id, name) {
-  requestData = {
-    "id": id,
-    "name": name
-  }
-  return fetch('http://localhost:8080/api/item', {
-    method: 'GET',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(requestData)
-  })
-}
-*/
 
 function Content() {
 
@@ -42,51 +13,74 @@ function Content() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const { id } = useParams();
-  const [listId, setListId] = useState();
+
+
 
   useEffect(() => {
-    setListId(id);
-  }, [id])
+    
+    const fetchData = async () => { 
+      const data = await authFetch(`list/${id}`)
+      
+      setName(data.title);
+      setColor(data.color);
+      setTasks(data.items);
+      setCompleted(data.completed);
 
-  
+    }
+
+    fetchData();
+
+  }, [id])
 
   function handleInputChange(event) {
     setNewTask(event.target.value);
   }
 
-  function addTask() {
+  async function addTask() {
 
     if(newTask.trim() !== "") {
-      authFetch('item', {"id": listId, "title": name, "color": color}, 'POST');
-      setTasks(t => [...t,newTask]);
+      const data = await authFetch('item', {"listId": id, "text": newTask, "color": color}, 'POST');
+      setTasks(t => [...t,data]);
       setNewTask("");
 
     }
   }
 
-  function deleteTask(index) {
-    const updatedTasks = tasks.filter((_, i) => i !== index);
+  function deleteTask(id) {
+    const updatedTasks = tasks.filter((i, _) => i.id !== id);
     setTasks(updatedTasks);
+    authFetch(`item/${id}`, null, 'DELETE');
+    console.log(id);
   }
 
-  function moveTaskUp(index) {
-    if(index > 0) {
+  function moveTaskUp(task) {
+    if(task.orderIndex > 0) {
+
       const updatedTasks = [...tasks];
-      [updatedTasks[index], updatedTasks[index - 1]] = [updatedTasks[index - 1], [updatedTasks[index]]];
+      const a = task.orderIndex;
+      const b = task.orderIndex - 1;
+
+      [updatedTasks[a].orderIndex, updatedTasks[b].orderIndex] = [updatedTasks[b].orderIndex, updatedTasks[a].orderIndex];
+      [updatedTasks[a], updatedTasks[b]] = [updatedTasks[b], updatedTasks[a]];
+
       setTasks(updatedTasks);
+      authFetch(`item/${task.id}/move/${b}`, null, 'PUT');
     }
   }
 
-  function moveTaskDown(index) {
-    if(index < tasks.length - 1) {
+  function moveTaskDown(task) {
+    if(task.orderIndex < tasks.length - 1) {
       const updatedTasks = [...tasks];
-      [updatedTasks[index], updatedTasks[index + 1]] = [updatedTasks[index + 1], updatedTasks[index]]
-      setTasks(updatedTasks);
-    }
-  }
+      const a = task.orderIndex;
+      const b = task.orderIndex + 1;
 
-  function sumbitChecbox() {
-    setCompleted(true);
+      [updatedTasks[a].orderIndex, updatedTasks[b].orderIndex] = [updatedTasks[b].orderIndex, updatedTasks[a].orderIndex];
+      [updatedTasks[a], updatedTasks[b]] = [updatedTasks[b], updatedTasks[a]];
+
+      setTasks(updatedTasks);
+      authFetch(`item/${task.id}/move/${b}`, null, 'PUT');
+      
+    }
   }
 
 
@@ -95,27 +89,27 @@ function Content() {
       <div className="flex flex-col items-center justify-between w-auto h-auto p-10 rounded-xl bg-black">
         <div className='basis-1/3 flex flex-col items-center justify-center'>
           <div className='text-white'>
-          <EditableLabel text={{name} + {listId}} />
+          <EditableLabel text={name} />
           </div>
-
           <div className=''>
             <input className='rounded-sm' type="text" placeholder="Enter a task..." value={newTask} onChange={handleInputChange} />
             <button className="bg-green-700 text-white rounded-sm m-2 px-1 font-bold" onClick={addTask}>Add</button>
           </div>
         </div>
-
         <div className='basis-2/3'>
           <ol className=''>
             {tasks.map((task, index) =>
-              <li key={index} className='text-white flex flex-row items-center justify-between'>
-                <input className='m-2' type='checkbox' onClick={sumbitChecbox} />
-                <div className=''>
-                  <EditableLabel text={task} />
+              <li key={task.id} className='text-white flex flex-row items-center justify-between'>
+                <div>
+                  <Checkbox check={task.completed} />
+                </div>
+                <div>
+                  <EditableLabel text={task.text} />
                 </div>
                 <div className='px-2'>
-                  <button className='bg-red-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => deleteTask(index)}>Delete</button>
-                  <button className='bg-blue-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => moveTaskUp(index)}>Up</button>
-                  <button className='bg-blue-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => moveTaskDown(index)}>Down</button>
+                  <button className='bg-red-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => deleteTask(task.id)}>Delete</button>
+                  <button className='bg-blue-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => moveTaskUp(task)}>Up</button>
+                  <button className='bg-blue-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => moveTaskDown(task)}>Down</button>
                 </div>
               </li>)}
           </ol>

@@ -39,7 +39,13 @@ export async function authFetch(Url, data = null, method = 'GET') {
 
     body: (data != null) ? JSON.stringify(data) : null
   })
-    .then(data => data.json())
+    .then(data => {
+      if(data.headers.get('content-type') === "application/json") {
+        return data.json();
+      }else {
+        return data.text();
+      }
+    })
     .catch(err => console.log(err))
 }
 
@@ -47,6 +53,7 @@ export async function authFetch(Url, data = null, method = 'GET') {
 
 
 function App() {
+
 
   return (
     <UserProvider>

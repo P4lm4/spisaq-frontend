@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { authFetch } from "../../App";
 
 function EditableLabel(props) {
   //const {text}=props;
-  
   const [isEditing, setIsEditing] = useState(false);
   const [realText, setRealText] = useState(props.text);
   const [editingText, setEditingText] = useState('');
@@ -24,6 +24,7 @@ function EditableLabel(props) {
   useEffect(() => {
     setIsEditing(false);
     setRealText(props.text);
+
   }, [props.text])
 
   const handleTextClick = () => {
@@ -47,10 +48,10 @@ function EditableLabel(props) {
 
 
 return (
-  <div>
+  <div className="flex items-center justify-center">
     {isEditing ? (
       <input
-        className="text-black font-bold"
+        className="text-black font-bold m-1"
         type="text"
         value={editingText}
         onChange={handleInputChange}

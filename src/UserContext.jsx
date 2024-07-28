@@ -19,7 +19,7 @@ export const UserProvider = ({ children }) => {
 
   // try to autoLogin 
   useEffect(()=>{
-    if(user=== undefined){
+    if(user === undefined){
       fetchUser()
     }
 

@@ -12,7 +12,7 @@ function Home() {
     const navigate = useNavigate();
 
     async function createList() {
-        const data = await authFetch('list', {"title": "New List", "color": "#ff00ff"}, 'POST');
+        const data = await authFetch('list', 'POST', {"title": "New List", "color": "#ff00ff"});
         navigate(`content/${data.id}`);
         console.log(data);
     }

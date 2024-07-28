@@ -42,7 +42,7 @@ function Register() {
   return (
     <div className='flex items-center justify-center h-screen'>
     <div className='flex flex-col items-center justify-center bg-black rounded-xl p-5 text-white'>
-      <h1>Sign up</h1>
+      <h1>Register</h1>
       <form onSubmit={handleSubmitRegister}  className='flex flex-col items-center justify-center' >
         <input onChange={(e) => setEmail(e.target.value)} className='rounded-xl m-1 text-black p-1' placeholder='Email' type="email"></input>
         <input onChange={(e) => setUsername(e.target.value)} className='rounded-xl m-1 text-black p-1' placeholder='Username' type="text"></input>

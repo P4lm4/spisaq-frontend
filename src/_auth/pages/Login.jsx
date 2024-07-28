@@ -41,19 +41,19 @@ const handleSubmit = async e => {
   return (
     <div className='flex items-center justify-center h-screen'>
       <div className='flex flex-col items-center justify-center bg-black rounded-xl p-5 text-white'>
-        <h1>Sing in</h1>
+        <h1 className='font-bold text-2xl mb-3'>Login</h1>
         <form onSubmit={handleSubmit} className='flex flex-col items-center justify-center'>
           <label>
             <p>Username</p>
-            <input onChange={(e) => setUsername(e.target.value)} className='rounded-xl m-1 text-black p-1' placeholder='Username' type="text"></input>
+            <input onChange={(e) => setUsername(e.target.value)} className='rounded-xl m-1 text-black p-1 opacity-90' placeholder='Username' type="text"></input>
           </label>
           <label>
             <p>Password</p>
-            <input onChange={(e) => setPassword(e.target.value)} className='rounded-xl m-1 text-black p-1' placeholder='Password' type="password"></input>
+            <input onChange={(e) => setPassword(e.target.value)} className='rounded-xl m-1 text-black p-1 opacity-90' placeholder='Password' type="password"></input>
           </label>
           <div className='flex flex-col items-center justify-center'>
-            <button type="submit" className='bg-yellow-400 rounded-xl m-1 px-10 border-black font-bold'>Login</button>
-            <p>Don't have an a account? <span><Link to="register"><span className='text-blue-700 text-unde'>Sign up</span></Link></span></p>
+            <button type="submit" className='bg-yellow-400 rounded-xl m-2 px-10 border-black font-bold text-xl'>Login</button>
+            <p>Don't have an account? <span><Link to="register"><span className='text-blue-700 underline'>Register</span></Link></span></p>
           </div>
         </form>
       </div>

@@ -9,7 +9,6 @@ function Content() {
 
   const [name, setName] = useState();
   const [color, setColor] = useState("#ff00ff");
-  const [completed, setCompleted] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const { id } = useParams();
@@ -24,7 +23,6 @@ function Content() {
       setName(data.title);
       setColor(data.color);
       setTasks(data.items);
-      setCompleted(data.completed);
 
     }
 
@@ -52,9 +50,8 @@ function Content() {
       const updatedTasks = tasks.filter((i, _) => i.id !== id);
       setTasks(updatedTasks);
     }).catch(()=>{
-      console.log('Snimanje nije uspjelo');
+      console.log('Brisanje nije uspjelo');
     })
-    console.log(id);
   }
 
   function moveTaskUp(task) {
@@ -87,19 +84,31 @@ function Content() {
     }
   }
 
-  function onTaskChange(taskToUpdate,text){
+  function onTaskChange(taskToUpdate,text) {
     const updatedTask = {...taskToUpdate, text}
     const updatedTasks = tasks.filter(task => task.id !== taskToUpdate.id)
+
     updatedTasks.push(updatedTask)
     setTasks(updatedTasks)
+
+    authFetch(`item/${taskToUpdate.id}`, 'PUT', updatedTask);
   }
+
+  async function onNameChange(text) {
+    if(text.trim() !== "") {
+      setName(text);
+      authFetch(`list/${id}`, 'PUT', {"title": text, "color": "#ff00ff"});
+    }
+  }
+
+  
 
   return (
     <div className='flex h-dvh items-center justify-center pt-20 bg-yellow-200'>
       <div className="flex flex-col items-center justify-between w-auto h-auto p-10 rounded-xl bg-black">
         <div className='basis-1/3 flex flex-col items-center justify-center'>
           <div className='text-white'>
-          <EditableLabel text={name} onTextChange={setName}/>
+          <EditableLabel text={name} onTextChange={(text) => onNameChange(text)}/>
           </div>
           <div className=''>
             <input className='rounded-sm' type="text" placeholder="Enter a task..." value={newTask} onChange={handleInputChange} />
@@ -111,10 +120,10 @@ function Content() {
             {tasks.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).map((task, index) =>
               <li key={task.id} className='text-white flex flex-row items-center justify-between'>
                 <div>
-                  <Checkbox check={completed} />
+                  <Checkbox check={task.completed} />
                 </div>
                 <div>
-                  <EditableLabel text={task.text} onTextChange={(text)=>onTaskChange(task,text)}/>
+                  <EditableLabel text={task.text} onTextChange={(text) => onTaskChange(task,text)}/>
                 </div>
                 <div className='px-2'>
                   <button className='bg-red-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => deleteTask(task.id)}>Delete</button>

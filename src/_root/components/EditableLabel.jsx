@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { authFetch } from "../../App";
+import React, { useState } from "react";
 
 function EditableLabel(props) {
   const [isEditing, setIsEditing] = useState(false);

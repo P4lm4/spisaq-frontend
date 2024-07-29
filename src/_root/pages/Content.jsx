@@ -7,153 +7,78 @@ import UserContext from '../../UserContext';
 
 
 function Content() {
-
-  const [name, setName] = useState();
+  const [newTask, setNewTask] = useState('');
   const [color, setColor] = useState("#ff00ff");
-  const [tasks, setTasks] = useState([]);
-  const [newTask, setNewTask] = useState("");
   const { id } = useParams();
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, lists, refreshLists } = useContext(UserContext);
 
-  function notifyListUpdated(newName = undefined, newColor = undefined, newTasks = undefined) {
-    console.log(user.lists);
-    const listIndex = user.lists.findIndex((l) => (l.id == id));
-    if(listIndex < 0) {
-      console.log("Error: Current list not found in user! " + id);
-      return;
-    }
-    const userCopy = {...user};
-    userCopy.lists[listIndex].title = newName ? newName : name;
-    userCopy.lists[listIndex].color = newColor ? newColor : color;
-    console.log("Old items " + JSON.stringify(userCopy.lists[listIndex].items));
-    userCopy.lists[listIndex].items = newTasks ? [...newTasks] : [...tasks];
-    console.log("New items " + JSON.stringify(userCopy.lists[listIndex].items));
-
-    setUser(userCopy);
-
-  }
-
-
-
-  useEffect(() => {
-    
-    const fetchData = async () => { 
-      const data = await authFetch(`list/${id}`)
-      
-      setName(data.title);
-      setColor(data.color);
-      setTasks(data.items);
-
-    }
-
-    fetchData();
-
-  }, [id])
+  const openList = lists?.find(list=>  list.id.toString() === id)
 
   function handleInputChange(event) {
     setNewTask(event.target.value);
   }
 
   async function addTask() {
-
     if(newTask.trim() !== "") {
-      const data = await authFetch('item', 'POST', {"listId": id, "text": newTask, "color": color});
-      const updatedTasks = t => [...t,data];
-      setTasks(updatedTasks);
-      notifyListUpdated(name, color, updatedTasks);
-      setNewTask("");
-
+      authFetch('item', 'POST', {"listId": id, "text": newTask, "color": color}).then(()=>{
+        refreshLists()
+      })
     }
   }
 
   function deleteTask(id) {
-
     authFetch(`item/${id}`, 'DELETE').then(()=>{
-      const updatedTasks = tasks.filter((i, _) => i.id !== id);
-      setTasks(updatedTasks);
-      notifyListUpdated(name, color, updatedTasks);
+      refreshLists()
     }).catch(()=>{
       console.log('Brisanje nije uspjelo');
     })
   }
 
-  function moveTaskUp(task) {
-    if(task.orderIndex > 0) {
-
-      const updatedTasks = [...tasks];
-      const a = task.orderIndex;
-      const b = task.orderIndex - 1;
-      console.log("Move up A: " + a + " B: " + b);
-      [updatedTasks[a].orderIndex, updatedTasks[b].orderIndex] = [updatedTasks[b].orderIndex, updatedTasks[a].orderIndex];
-      [updatedTasks[a], updatedTasks[b]] = [updatedTasks[b], updatedTasks[a]];
-
-      setTasks(updatedTasks);
-      notifyListUpdated(name, color, updatedTasks);
-      authFetch(`item/${task.id}/move/${b}`, 'PUT');
+  function moveTaskUp(item) {
+    if(item.orderIndex > 0) {
+      const b = item.orderIndex - 1;
+      authFetch(`item/${item.id}/move/${b}`, 'PUT').then(()=>{
+        refreshLists()
+      });
     }
   }
 
-  function moveTaskDown(task) {
-    if(task.orderIndex < tasks.length - 1) {
-      const updatedTasks = [...tasks];
-      const a = task.orderIndex;
-      const b = task.orderIndex + 1;
-
-      [updatedTasks[a].orderIndex, updatedTasks[b].orderIndex] = [updatedTasks[b].orderIndex, updatedTasks[a].orderIndex];
-      [updatedTasks[a], updatedTasks[b]] = [updatedTasks[b], updatedTasks[a]];
-
-      setTasks(updatedTasks);
-      notifyListUpdated(name, color, updatedTasks);
-      authFetch(`item/${task.id}/move/${b}`, 'PUT');
-      
+  function moveTaskDown(item) {
+    if(item.orderIndex+1 < openList?.items?.length) {
+      const b = item.orderIndex + 1;
+      authFetch(`item/${item.id}/move/${b}`, 'PUT').then(()=>{
+        refreshLists()
+      })
     }
   }
 
-  function onTaskChange(taskToUpdate,text) {
-    const updatedTask = {...taskToUpdate, text}
-    const updatedTasks = tasks.filter(task => task.id !== taskToUpdate.id)
-
-    updatedTasks.push(updatedTask)
-    setTasks(updatedTasks)
-    notifyListUpdated(name, color, updatedTasks);
-
-    authFetch(`item/${taskToUpdate.id}`, 'PUT', updatedTask);
+  function checkBoxChange(item, completed) {
+    const updatedItem = {...item, completed}
+    authFetch(`item/${item.id}`, 'PUT', updatedItem).then(()=>{
+      refreshLists()
+    })
   }
 
-  async function onNameChange(text) {
-      setName(text);
+    function updateListName(list, title) {
+      const updatedList = {...list, title}
+      authFetch(`list/${list.id}`, 'PUT', updatedList).then(()=>{
+        refreshLists()
+      });
   }
 
-  function onNameEditDone(text) {
-    if(text === undefined) {
-      return;
-    }
-    console.log("On name edit done: " + text);
-
-    if(text.trim() !== "") {
-      authFetch(`list/${id}`, 'PUT', {"title": text, "color": color});
-      notifyListUpdated(text, color, tasks);
-    } 
-  }
-
-  function checkBoxChange(task, completed) {
-    console.log("Checkbox changed to " + completed + " on " + task.text + " id " + task.id + " old task value " + task.completed);
-    const updatedTask = {...task, completed}
-    const updatedTasks = tasks.filter(oldTask => oldTask.id !== task.id)
-
-    updatedTasks.push(updatedTask);
-    setTasks(updatedTasks);
-    authFetch(`item/${updatedTask.id}`, 'PUT', updatedTask);
-    notifyListUpdated(name, color, updatedTasks);
-  }
-  
+  function updateItemTitle(item, text) {
+    const updatedItem = {...item, text}
+    authFetch(`item/${item.id}`, 'PUT', updatedItem).then(()=>{
+      refreshLists()
+    });
+}
 
   return (
     <div className='flex h-dvh items-center justify-center pt-20 bg-yellow-200'>
       <div className="flex flex-col items-center justify-between w-auto h-auto p-10 rounded-xl bg-black">
         <div className='basis-1/3 flex flex-col items-center justify-center'>
           <div className='text-white'>
-          <EditableLabel text={name} onTextChange={(text) => onNameChange(text)} onEditDone={onNameEditDone}/>
+          <EditableLabel text={openList.title} onEditDone={(newTitle)=> updateListName(openList,newTitle)}/>
           </div>
           <div className=''>
             <input className='rounded-sm' type="text" placeholder="Enter a task..." value={newTask} onChange={handleInputChange} />
@@ -162,18 +87,18 @@ function Content() {
         </div>
         <div className='basis-2/3'>
           <ol className=''>
-            {tasks.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).map((task, index) =>
-              <li key={task.id} className='text-white flex flex-row items-center justify-between'>
+            {openList?.items?.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).map((item, index) =>
+              <li key={item.id} className='text-white flex flex-row items-center justify-between'>
                 <div>
-                  <Checkbox check={task.completed} onChange={(completed) => checkBoxChange(task, completed)} />
+                  <Checkbox check={item.completed} onChange={(completed) => checkBoxChange(item, completed)} />
                 </div>
                 <div>
-                  <EditableLabel text={task.text} onTextChange={(text) => onTaskChange(task,text)} />
+                  <EditableLabel text={item.text}  onEditDone={(newTitle)=> updateItemTitle(item, newTitle)}/>
                 </div>
                 <div className='px-2'>
-                  <button className='bg-red-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => deleteTask(task.id)}>Delete</button>
-                  <button className='bg-blue-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => moveTaskUp(task)}>Up</button>
-                  <button className='bg-blue-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => moveTaskDown(task)}>Down</button>
+                  <button className='bg-red-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => deleteTask(item.id)}>Delete</button>
+                  <button className='bg-blue-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => moveTaskUp(item)}>Up</button>
+                  <button className='bg-blue-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => moveTaskDown(item)}>Down</button>
                 </div>
               </li>)}
           </ol>

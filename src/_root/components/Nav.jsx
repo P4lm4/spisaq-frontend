@@ -1,15 +1,13 @@
 import React, { useContext, useState } from "react";
 import BurgerMenu from "./BurgerMenu";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import UserContext from "../../UserContext";
 import { setToken } from "../../App";
 
 function Nav () {
 
-    const { user, setUser } = useContext(UserContext);
-    const navigate = useNavigate();
+    const { user, setUser ,query, setQuery} = useContext(UserContext);
 
-    console.log(user);
 
     function signOut() {
         console.log("Sign Out");
@@ -20,7 +18,7 @@ function Nav () {
 
     return (
      <div className="fixed z-50 inset-x-0 top-0 w-full bg-black flex items-center justify-between">
-        <div className="flex flex-row items-center font-bold text-2xl cursor-pointer text-slate-200">
+        <div className="flex flex-row items-center basis-1/4 font-bold text-2xl cursor-pointer text-slate-200">
             <BurgerMenu />
             <Link className="flex justify-center items-center" to="/">
                 <span className="mr-1 text-3xl text-amber-400">
@@ -29,7 +27,10 @@ function Nav () {
                 Spisa<span className="text-yellow-400">q</span>
             </Link>
         </div>
-        <div className="flex flex-row items-center justify-end font-bold text-white">
+        <div className="flex items-center justify-center basis-2/4">
+            <input className="w-full" type="search" value={query} onChange={e => setQuery(e.target.value)} />
+        </div>
+        <div className="flex flex-row items-center justify-end basis-1/4 font-bold text-white">
             <div className="text-sm flex-col items-center justify-center mr-2">
                 <p>
                     {user.username}

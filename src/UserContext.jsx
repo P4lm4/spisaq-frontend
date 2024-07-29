@@ -5,29 +5,27 @@ import { authFetch } from "./App";
 const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
+  const [query, setQuery] = useState("");
+
   const[user, setUser] = useState(() => {
     const savedUser = sessionStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null
   });
-  // const [ lists, setLists] = useState((user != undefined && user.lists != undefined) ? user.lists : []);
 
-  async function fetchUser() {
-    console.log("I am trying to auto login")
-    const data = await authFetch('user/myself');
-    if(data){
-      setUser(data);
-      //setLists(data.lists);
-    }
-}
-  /*
-  useEffect(() => {
-    if(user) {
-      const userCopy = {...user};
-      userCopy.lists = lists;
-      setUser(userCopy);
-    }
-  }, [lists])
-  */
+  const lists = user?.lists
+
+  const filteredList =  query === '' ? lists : lists?.filter((list => {
+    return  list?.items.find(item=> item?.text?.toLowerCase().includes(query.toLowerCase()))
+  }))
+
+  async function refreshLists (){
+    const data = await authFetch('user/myself').then((data)=>{
+      if(data){
+        setUser(data);
+      }
+    })
+  }
+
 
   // try to autoLogin 
   useEffect(()=>{
@@ -41,7 +39,7 @@ export const UserProvider = ({ children }) => {
   }, [user])
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser,query, setQuery, filteredList,lists,refreshLists }}>
       {children}
     </UserContext.Provider>
   )

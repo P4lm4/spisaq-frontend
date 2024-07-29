@@ -8,7 +8,7 @@ import { authFetch } from '../../App';
 
 function Home() {
 
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser, filteredList } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ function Home() {
                 <button onClick={createList} className="flex items-center justify-center w-60 h-80 rounded-xl text-3xl text-white shadow p-5 m4 bg-black cursor-pointer">
                     <ion-icon name="add-outline"></ion-icon>             
                 </button>
-            {user.lists?.map((list, index) => <CardNote key={list.id} list={list} />)}
+            {filteredList?.map((list, index) => <CardNote key={list.id} list={list} />)}
         </div>
     )
 }

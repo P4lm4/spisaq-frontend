@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 function EditableLabel(props) {
+  const [text, setText] = useState(props.text || "");
   const [isEditing, setIsEditing] = useState(false);
 
   const handleInputChange = (e) => {
-    props.onTextChange(e.target.value);
+    setText(e.target.value);
   };
 
   const handleTextClick = () => {
@@ -23,7 +24,7 @@ function EditableLabel(props) {
 
   useEffect(() => {
     if(!isEditing) {
-      props.onEditDone?.(props.text);
+      props.onEditDone?.(text);
     }
   }, [isEditing])
 
@@ -34,7 +35,7 @@ return (
       <input
         className="text-black font-bold m-1"
         type="text"
-        value={props.text}
+        value={text}
         onChange={handleInputChange}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}

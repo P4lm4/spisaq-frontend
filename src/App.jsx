@@ -13,7 +13,11 @@ import AuthLayout from "./_auth/AuthLayout"
 
 
 export function setToken(userToken) {
-  sessionStorage.setItem('token', userToken);
+  if(userToken) {
+    sessionStorage.setItem('token', userToken);
+  }else {
+    sessionStorage.removeItem("token");
+  }
 }
 
 export function getToken() {
@@ -67,7 +71,6 @@ function App() {
           <Route path="/" element={<RootLayout />}>
             <Route index element={<Home />} />
             <Route path="content/:id" element={<Content />} />
-            <Route path="content/new" element={<Content />} />
           </Route>
         </Routes>
       </BrowserRouter>

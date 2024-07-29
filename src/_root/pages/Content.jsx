@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import EditableLabel from '../components/EditableLabel';
 import { useParams } from 'react-router-dom';
 import { authFetch } from '../../App';
 import Checkbox from '../components/Checkedbox';
+import UserContext from '../../UserContext';
 
 
 function Content() {
@@ -12,6 +13,25 @@ function Content() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
   const { id } = useParams();
+  const { user, setUser } = useContext(UserContext);
+
+  function notifyListUpdated(newName = undefined, newColor = undefined, newTasks = undefined) {
+    console.log(user.lists);
+    const listIndex = user.lists.findIndex((l) => (l.id == id));
+    if(listIndex < 0) {
+      console.log("Error: Current list not found in user! " + id);
+      return;
+    }
+    const userCopy = {...user};
+    userCopy.lists[listIndex].title = newName ? newName : name;
+    userCopy.lists[listIndex].color = newColor ? newColor : color;
+    console.log("Old items " + JSON.stringify(userCopy.lists[listIndex].items));
+    userCopy.lists[listIndex].items = newTasks ? [...newTasks] : [...tasks];
+    console.log("New items " + JSON.stringify(userCopy.lists[listIndex].items));
+
+    setUser(userCopy);
+
+  }
 
 
 
@@ -38,7 +58,9 @@ function Content() {
 
     if(newTask.trim() !== "") {
       const data = await authFetch('item', 'POST', {"listId": id, "text": newTask, "color": color});
-      setTasks(t => [...t,data]);
+      const updatedTasks = t => [...t,data];
+      setTasks(updatedTasks);
+      notifyListUpdated(name, color, updatedTasks);
       setNewTask("");
 
     }
@@ -49,6 +71,7 @@ function Content() {
     authFetch(`item/${id}`, 'DELETE').then(()=>{
       const updatedTasks = tasks.filter((i, _) => i.id !== id);
       setTasks(updatedTasks);
+      notifyListUpdated(name, color, updatedTasks);
     }).catch(()=>{
       console.log('Brisanje nije uspjelo');
     })
@@ -60,11 +83,12 @@ function Content() {
       const updatedTasks = [...tasks];
       const a = task.orderIndex;
       const b = task.orderIndex - 1;
-
+      console.log("Move up A: " + a + " B: " + b);
       [updatedTasks[a].orderIndex, updatedTasks[b].orderIndex] = [updatedTasks[b].orderIndex, updatedTasks[a].orderIndex];
       [updatedTasks[a], updatedTasks[b]] = [updatedTasks[b], updatedTasks[a]];
 
       setTasks(updatedTasks);
+      notifyListUpdated(name, color, updatedTasks);
       authFetch(`item/${task.id}/move/${b}`, 'PUT');
     }
   }
@@ -79,6 +103,7 @@ function Content() {
       [updatedTasks[a], updatedTasks[b]] = [updatedTasks[b], updatedTasks[a]];
 
       setTasks(updatedTasks);
+      notifyListUpdated(name, color, updatedTasks);
       authFetch(`item/${task.id}/move/${b}`, 'PUT');
       
     }
@@ -90,17 +115,37 @@ function Content() {
 
     updatedTasks.push(updatedTask)
     setTasks(updatedTasks)
+    notifyListUpdated(name, color, updatedTasks);
 
     authFetch(`item/${taskToUpdate.id}`, 'PUT', updatedTask);
   }
 
   async function onNameChange(text) {
-    if(text.trim() !== "") {
       setName(text);
-      authFetch(`list/${id}`, 'PUT', {"title": text, "color": "#ff00ff"});
-    }
   }
 
+  function onNameEditDone(text) {
+    if(text === undefined) {
+      return;
+    }
+    console.log("On name edit done: " + text);
+
+    if(text.trim() !== "") {
+      authFetch(`list/${id}`, 'PUT', {"title": text, "color": color});
+      notifyListUpdated(text, color, tasks);
+    } 
+  }
+
+  function checkBoxChange(task, completed) {
+    console.log("Checkbox changed to " + completed + " on " + task.text + " id " + task.id + " old task value " + task.completed);
+    const updatedTask = {...task, completed}
+    const updatedTasks = tasks.filter(oldTask => oldTask.id !== task.id)
+
+    updatedTasks.push(updatedTask);
+    setTasks(updatedTasks);
+    authFetch(`item/${updatedTask.id}`, 'PUT', updatedTask);
+    notifyListUpdated(name, color, updatedTasks);
+  }
   
 
   return (
@@ -108,7 +153,7 @@ function Content() {
       <div className="flex flex-col items-center justify-between w-auto h-auto p-10 rounded-xl bg-black">
         <div className='basis-1/3 flex flex-col items-center justify-center'>
           <div className='text-white'>
-          <EditableLabel text={name} onTextChange={(text) => onNameChange(text)}/>
+          <EditableLabel text={name} onTextChange={(text) => onNameChange(text)} onEditDone={onNameEditDone}/>
           </div>
           <div className=''>
             <input className='rounded-sm' type="text" placeholder="Enter a task..." value={newTask} onChange={handleInputChange} />
@@ -120,10 +165,10 @@ function Content() {
             {tasks.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).map((task, index) =>
               <li key={task.id} className='text-white flex flex-row items-center justify-between'>
                 <div>
-                  <Checkbox check={task.completed} />
+                  <Checkbox check={task.completed} onChange={(completed) => checkBoxChange(task, completed)} />
                 </div>
                 <div>
-                  <EditableLabel text={task.text} onTextChange={(text) => onTaskChange(task,text)}/>
+                  <EditableLabel text={task.text} onTextChange={(text) => onTaskChange(task,text)} />
                 </div>
                 <div className='px-2'>
                   <button className='bg-red-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => deleteTask(task.id)}>Delete</button>

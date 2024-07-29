@@ -5,7 +5,7 @@ import UserContext from "../../UserContext";
 function BurgerMenu() {
 
     let [open, setOpen] = useState(false);
-    const { lists } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
 
     return(
@@ -15,8 +15,15 @@ function BurgerMenu() {
                 </div>
                 <div className="flex scroll-smooth">
                     {open && (
+                        
                         <ul className="text-base fixed flex flex-col items-start p-6 l-0 h-screen w-80 text-white bg-black">
-                            {lists.map((item) => <Link key={item.id} to={`/content/${item.id}`}><li>{item.title}</li></Link>)}
+                            <Link className="py-1 pr-2 mb-2 border-b-amber-400 border-b-2 w-full" to="/"><ion-icon name="copy-outline"></ion-icon><span>Home</span></Link>
+                            {user.lists.map((item) => <Link key={item.id} to={`/content/${item.id}`}>
+                                <li className="my-1">
+                                    <ion-icon className="pr-2" name="clipboard-outline"></ion-icon>
+                                    {item.title}
+                                </li>
+                            </Link>)}
                         </ul>
                     )}
                 </div>

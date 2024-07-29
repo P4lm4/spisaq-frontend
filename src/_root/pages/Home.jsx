@@ -8,12 +8,16 @@ import { authFetch } from '../../App';
 
 function Home() {
 
-    const { lists } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
 
     const navigate = useNavigate();
 
     async function createList() {
         const data = await authFetch('list', 'POST', {"title": "New List", "color": "#ff00ff"});
+        const userCopy = {...user};
+        userCopy.lists.push(data);
+        setUser(userCopy);
+        //setLists(t => [...t, data]);
         navigate(`content/${data.id}`);
         console.log(data);
     }
@@ -24,7 +28,7 @@ function Home() {
                 <button onClick={createList} className="flex items-center justify-center w-60 h-80 rounded-xl text-3xl text-white shadow p-5 m4 bg-black cursor-pointer">
                     <ion-icon name="add-outline"></ion-icon>             
                 </button>
-            {lists?.map((list, index) => <CardNote key={list.id} list={list} />)}
+            {user.lists?.map((list, index) => <CardNote key={list.id} list={list} />)}
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function EditableLabel(props) {
   const [isEditing, setIsEditing] = useState(false);
@@ -20,6 +20,12 @@ function EditableLabel(props) {
       setIsEditing(false);
     }
   };
+
+  useEffect(() => {
+    if(!isEditing) {
+      props.onEditDone?.(props.text);
+    }
+  }, [isEditing])
 
 
 return (

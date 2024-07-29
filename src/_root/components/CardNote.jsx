@@ -12,7 +12,7 @@ function CardNote(props) {
                 </div>
                 <div className="basis-3/4 items-start p-3 justify-around bg-white opacity-80 rounded-xl w-full text-black">
                     <ul className="text-wrap">
-                        {props.list.items.map((i, index) => <li key={i.id}>{i.completed ? "✅" : "⬛"}{i.text}</li>)}
+                        {props.list.items.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).map((i, index) => <li key={i.id}>{i.completed ? "✅" : "⬛"}{i.text}</li>)}
                     </ul>
                 </div>
             </div>

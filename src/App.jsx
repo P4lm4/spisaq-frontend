@@ -32,9 +32,12 @@ export function getLists() {
   return JSON.parse(sessionStorage.getItem('lists'));
 }
 */
+
+const API_URL = import.meta.env.API_URL;
+
 export async function authFetch(Url, method = 'GET', data = null) {
 
-  return fetch('http://localhost:8080/api/' + Url, {
+  return fetch(API_URL + Url, {
     method: method,
     headers: {
       'Content-Type': 'application/json',

@@ -46,12 +46,12 @@ const handleSubmit = async e => {
           <label>
             <p>Username</p>
             <input onChange={(e) => setUsername(e.target.value)} className='m-1 text-black p-1 opacity-90 mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400' placeholder='Username' type="text"></input>
+            focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400' placeholder='Username' type="text"></input>
           </label>
           <label>
             <p>Password</p>
             <input onChange={(e) => setPassword(e.target.value)} className='m-1 text-black p-1 opacity-90 mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400' placeholder='Password' type="password"></input>
+            focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400' placeholder='Password' type="password"></input>
           </label>
           <div className='flex flex-col items-center justify-center'>
             <button type="submit" className='bg-yellow-400 rounded-xl m-2 px-10 border-black font-bold text-xl'>Login</button>

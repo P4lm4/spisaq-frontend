@@ -60,21 +60,22 @@ function App() {
 
 
   return (
-    <UserProvider>
+    
       <BrowserRouter>
-        <Routes>
-          <Route path="/auth" element={<AuthLayout />}>
-            <Route index element={<Login />} />
-            <Route path="register" element={<Register />} />
-          </Route>
+        <UserProvider>
+          <Routes>
+            <Route path="/auth" element={<AuthLayout />}>
+              <Route index element={<Login />} />
+              <Route path="register" element={<Register />} />
+            </Route>
 
-          <Route path="/" element={<RootLayout />}>
-            <Route index element={<Home />} />
-            <Route path="content/:id" element={<Content />} />
-          </Route>
-        </Routes>
+            <Route path="/" element={<RootLayout />}>
+              <Route index element={<Home />} />
+              <Route path="content/:id" element={<Content />} />
+            </Route>
+          </Routes>
+        </UserProvider>
       </BrowserRouter>
-    </UserProvider>
 
 
   )

@@ -28,9 +28,10 @@ function Nav () {
             </Link>
         </div>
         <div className="flex items-center justify-center basis-2/4">
-            <input className="w-full" type="search" value={query} onChange={e => setQuery(e.target.value)} />
+            <input className="m-1 text-black p-1 opacity-90 mt-1 block w-full px-2 py-1 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
+            focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400" placeholder="Search item in list" type="search" value={query} onChange={e => setQuery(e.target.value)} />
         </div>
-        <div className="flex flex-row items-center justify-end basis-1/4 font-bold text-white">
+        {user && (<div className="flex flex-row items-center justify-end basis-1/4 font-bold text-white">
             <div className="text-sm flex-col items-center justify-center mr-2">
                 <p>
                     {user.username}
@@ -42,7 +43,7 @@ function Nav () {
             <div className="text-4xl text-amber-400 mx-1 pt-2">
                 <ion-icon name="person-circle-outline"></ion-icon>
             </div>
-        </div>
+        </div>) }
     </div>
     )
 }

@@ -78,11 +78,12 @@ function Content() {
     <div className='flex h-dvh items-center justify-center pt-20 bg-yellow-200'>
       <div className="flex min-w-12 flex-col items-center justify-between  p-10 rounded-xl bg-black">
         <div className='basis-1/3 min-w-12 flex flex-col items-center justify-center'>
-          <div className='text-white text-xl border-b-2 w-full text-center py-2'>
+          <div className='text-white text-xl border-b-2 border-yellow-400 w-full text-center py-2'>
           <EditableLabel text={openList.title} onEditDone={(newTitle)=> updateListName(openList,newTitle)}/>
           </div>
           <div className='py-1 flex my-4 items-center'>
-            <input className='rounded-sm p-2 h-8' type="text" placeholder="Enter a task..." value={newTask} onChange={handleInputChange} />
+            <input className='h-8 m-1 text-black p-1 opacity-90 mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-sm text-sm shadow-sm placeholder-slate-400
+            focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400' type="text" placeholder="Enter a task..." value={newTask} onChange={handleInputChange} />
             <button className="bg-green-700 hover:scale-110 duration-200 transform text-white rounded-sm m-2 px-2 pt-1 font-bold text-xl" onClick={addTask}><ion-icon name="add-circle-outline"></ion-icon></button>
           </div>
         </div>

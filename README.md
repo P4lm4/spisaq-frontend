@@ -28,9 +28,8 @@ To get started with spisaq-frontend, you need to have Node.js and npm installed 
 
 ## Usage
 
-To run the project locally, you can use Vite, a fast an[README.md](README.md)d optimized build tool for modern web projects.
+To run the project locally, you can use Vite, a fast an[README.md](README.md) optimized build tool for modern web projects.
 
 ```sh
 npm run dev
 ```
-Open your browser and navigate to http://localhost:3000 to see the application in action.

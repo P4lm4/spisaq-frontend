@@ -24,6 +24,7 @@ function Content() {
         refreshLists()
       })
     }
+    setNewTask('');
   }
 
   function deleteTask(id) {
@@ -75,30 +76,32 @@ function Content() {
 
   return (
     <div className='flex h-dvh items-center justify-center pt-20 bg-yellow-200'>
-      <div className="flex flex-col items-center justify-between w-auto h-auto p-10 rounded-xl bg-black">
-        <div className='basis-1/3 flex flex-col items-center justify-center'>
-          <div className='text-white'>
+      <div className="flex min-w-12 flex-col items-center justify-between  p-10 rounded-xl bg-black">
+        <div className='basis-1/3 min-w-12 flex flex-col items-center justify-center'>
+          <div className='text-white text-xl border-b-2 w-full text-center py-2'>
           <EditableLabel text={openList.title} onEditDone={(newTitle)=> updateListName(openList,newTitle)}/>
           </div>
-          <div className=''>
-            <input className='rounded-sm' type="text" placeholder="Enter a task..." value={newTask} onChange={handleInputChange} />
-            <button className="bg-green-700 text-white rounded-sm m-2 px-1 font-bold" onClick={addTask}>Add</button>
+          <div className='py-1 flex my-4 items-center'>
+            <input className='rounded-sm p-2 h-8' type="text" placeholder="Enter a task..." value={newTask} onChange={handleInputChange} />
+            <button className="bg-green-700 hover:scale-110 duration-200 transform text-white rounded-sm m-2 px-2 pt-1 font-bold text-xl" onClick={addTask}><ion-icon name="add-circle-outline"></ion-icon></button>
           </div>
         </div>
         <div className='basis-2/3'>
           <ol className=''>
             {openList?.items?.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).map((item, index) =>
-              <li key={item.id} className='text-white flex flex-row items-center justify-between'>
+              <li key={item.id} className='text-white flex flex-row items-center justify-between gap-8'>
                 <div>
                   <Checkbox check={item.completed} onChange={(completed) => checkBoxChange(item, completed)} />
                 </div>
-                <div>
-                  <EditableLabel text={item.text}  onEditDone={(newTitle)=> updateItemTitle(item, newTitle)}/>
+                <div className='flex flex-1'>
+                  <EditableLabel text={item.text} completed={item.completed}  onEditDone={(newTitle)=> updateItemTitle(item, newTitle)}/>
                 </div>
-                <div className='px-2'>
-                  <button className='bg-red-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => deleteTask(item.id)}>Delete</button>
-                  <button className='bg-blue-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => moveTaskUp(item)}>Up</button>
-                  <button className='bg-blue-700 text-white rounded-sm m-1 px-1 font-bold' onClick={() => moveTaskDown(item)}>Down</button>
+                <div className='px-2 flex '>
+                  <button className='bg-red-700 hover:scale-110 duration-200 text-white rounded-sm m-1 px-2 pt-1 font-bold' onClick={() => deleteTask(item.id)}><ion-icon name="trash-outline"></ion-icon></button>
+                  <button className='bg-blue-700 hover:scale-110 duration-200 text-white rounded-sm m-1 px-2 pt-1 font-bold' onClick={() => moveTaskUp(item)}><ion-icon name="chevron-up-outline">
+                  </ion-icon></button>
+                  <button  className='bg-blue-700 hover:scale-110 duration-200 text-white rounded-sm m-1 px-2 pt-1 font-bold flex items-center' onClick={() => moveTaskDown(item)}><ion-icon name="chevron-down-outline">
+                  </ion-icon></button>
                 </div>
               </li>)}
           </ol>

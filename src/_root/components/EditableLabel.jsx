@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 function EditableLabel(props) {
+  console.log(props);
   const [text, setText] = useState(props.text || "");
   const [isEditing, setIsEditing] = useState(false);
 
@@ -30,7 +31,7 @@ function EditableLabel(props) {
 
 
 return (
-  <div className="flex items-center justify-center">
+  <div className="flex w-full">
     {isEditing ? (
       <input
         className="text-black font-bold m-1"
@@ -42,7 +43,7 @@ return (
         autoFocus
       />
     ) : (
-      <span className="font-bold" onClick={handleTextClick}>{props.text}</span>
+      <div  className={`font-bold flex-1  ${props.completed && 'line-through text-gray-700 text-left' }`} onClick={handleTextClick}>{props.text}</div>
     )}
   </div>
 )

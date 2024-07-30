@@ -1,12 +1,13 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { authFetch } from "./App";
+//import { useNavigate } from 'react-router-dom';
 
 
 const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
   const [query, setQuery] = useState("");
-
+  //const navigate = useNavigate();
   const[user, setUser] = useState(() => {
     const savedUser = sessionStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null
@@ -32,6 +33,8 @@ export const UserProvider = ({ children }) => {
     //fetch user if page is reloaded
     if(!user) {
       sessionStorage.removeItem("user");
+      //navigate('/auth');
+      
     }else {
       sessionStorage.setItem("user", JSON.stringify(user));
     }

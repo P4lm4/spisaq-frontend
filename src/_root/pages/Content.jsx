@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import EditableLabel from '../components/EditableLabel';
 import { useParams } from 'react-router-dom';
 import { authFetch } from '../../App';

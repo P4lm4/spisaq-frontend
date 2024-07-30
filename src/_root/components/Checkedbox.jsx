@@ -7,7 +7,7 @@ function Checkbox(props) {
   }
 
   return (
-    <input className='m-1' type='checkbox' checked={props.check} onChange={onClickChange} />
+    <input className='m-1 accent-green-700' type='checkbox' checked={props.check} onChange={onClickChange} />
     
   )
 }

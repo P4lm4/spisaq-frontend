@@ -22,7 +22,7 @@ function BurgerMenu() {
                                 <span>Home</span>
                             </Link>
                             {user.lists.map((item) => 
-                            <Link className="hover:bg-yellow-600 rounded-md active:bg-yellow-500 hover:pr-2 p-1 mr-4" onClick={() => setOpen(!open)} key={item.id}  to={`/content/${item.id}`}>
+                            <Link className="hover:bg-yellow-600 rounded-md active:bg-yellow-500 hover:pr-2 p-1 mr-4 w-full" onClick={() => setOpen(!open)} key={item.id}  to={`/content/${item.id}`}>
                                 <li className="my-1 flex items-center gap-2 text-ellipsis" >
                                     <ion-icon className="pr-2" name="clipboard-outline"></ion-icon>
                                     <span className="text-ellipsis overflow-hidden w-64">{item.title}</span>

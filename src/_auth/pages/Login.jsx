@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { setToken } from '../../App';
 import UserContext from '../../UserContext';
+import { API_URL } from '../../Config';
 
 
 async function loginUser(username, password) {
@@ -9,7 +10,9 @@ async function loginUser(username, password) {
     "username": username,
     "password": password
   };
-  return fetch('http://localhost:8080/api/login', {
+
+
+  return fetch(API_URL + 'login', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(requestData)

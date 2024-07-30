@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../Config';
 
 async function registerUser(username, password, email) {
   const requestData = {
@@ -7,7 +8,7 @@ async function registerUser(username, password, email) {
     "password": password,
     "email": email
   }
-  return fetch('http://localhost:8080/api/register', {
+  return fetch(API_URL + 'register', {
      method: 'POST',
      headers: {'Content-Type': 'application/json'},
      body: JSON.stringify(requestData)

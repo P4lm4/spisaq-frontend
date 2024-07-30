@@ -10,6 +10,7 @@ import Content from "./_root/pages/Content"
 //...
 import RootLayout from "./_root/RootLayout"
 import AuthLayout from "./_auth/AuthLayout"
+import { API_URL } from "./Config"
 
 
 export function setToken(userToken) {
@@ -33,7 +34,7 @@ export function getLists() {
 }
 */
 
-const API_URL = import.meta.env.VITE_API_URL;
+
 
 export async function authFetch(Url, method = 'GET', data = null) {
 

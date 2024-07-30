@@ -24,17 +24,6 @@ export function setToken(userToken) {
 export function getToken() {
   return sessionStorage.getItem('token');
 }
-/*
-export function setLists(userLists) {
-  sessionStorage.setItem('lists', JSON.stringify(userLists))
-}
-
-export function getLists() {
-  return JSON.parse(sessionStorage.getItem('lists'));
-}
-*/
-
-
 
 export async function authFetch(Url, method = 'GET', data = null) {
 
@@ -57,11 +46,7 @@ export async function authFetch(Url, method = 'GET', data = null) {
     .catch(err => console.log(err))
 }
 
-
-
-
 function App() {
-
 
   return (
     
@@ -80,7 +65,6 @@ function App() {
           </Routes>
         </UserProvider>
       </BrowserRouter>
-
 
   )
 }

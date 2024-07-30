@@ -8,18 +8,14 @@ import { authFetch } from '../../App';
 
 function Home() {
 
-    const { user, setUser, filteredList } = useContext(UserContext);
+    const { user, setUser, filteredList, refreshLists } = useContext(UserContext);
 
     const navigate = useNavigate();
 
     async function createList() {
-        const data = await authFetch('list', 'POST', {"title": "New List", "color": "#ff00ff"});
-        const userCopy = {...user};
-        userCopy.lists.push(data);
-        setUser(userCopy);
-        //setLists(t => [...t, data]);
+        const data = await authFetch('list', 'POST', {"title": "New List", "color": "#ff00ff"})
+        await refreshLists();
         navigate(`content/${data.id}`);
-        console.log(data);
     }
     
     return(

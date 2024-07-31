@@ -26,8 +26,7 @@ function Register() {
 
   const handleSubmitRegister = async e => {
     e.preventDefault();
-    console.log({confirmPassword})
-    console.log({password})
+
     if(confirmPassword === password) {
       registerUser(username, password, email).then(response=>{
         if(response.status === 'OK'){

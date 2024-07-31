@@ -1,4 +1,4 @@
-import React, { useState , useContext} from "react";
+import React, { useState , useContext, useRef, useEffect} from "react";
 import { Link } from 'react-router-dom'
 import UserContext from "../../UserContext";
 
@@ -6,6 +6,13 @@ function BurgerMenu() {
 
     let [open, setOpen] = useState(false);
     const { user } = useContext(UserContext);
+    const sideBar = useRef();
+
+    useEffect(() => {
+        if(open) {
+            sideBar.current.focus();
+        }
+    }, [open])
 
 
     return(
@@ -16,7 +23,7 @@ function BurgerMenu() {
                 <div className="flex scroll-smooth" >
                     {open && (
                         
-                        <ul className="text-base fixed flex flex-col items-start p-6 l-0 h-screen w-80 text-white bg-black">
+                        <ul ref={sideBar} tabIndex={1} onBlur={() => setOpen(!open)} className="text-base fixed flex flex-col items-start p-6 l-0 h-screen w-80 text-white bg-gray-950 opacity-95">
                             <Link className="py-1 pr-2 mb-2 hover:p-1 hover:bg-yellow-600 hover:rounded-md active:bg-yellow-500 border-b-amber-400 border-b-2 w-full gap-2 flex items-center" onClick={() => setOpen(!open)}  to="/">
                                 <ion-icon name="copy-outline"></ion-icon>
                                 <span>Home</span>

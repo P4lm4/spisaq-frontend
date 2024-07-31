@@ -4,7 +4,7 @@ import Nav from './components/Nav'
 
 function RootLayout() {
   return (
-    <div className="h-full bg-yellow-200 overflow-y-auto">
+    <div className="h-full main-background overflow-y-auto">
       <Nav />
       <section>
         <Outlet />

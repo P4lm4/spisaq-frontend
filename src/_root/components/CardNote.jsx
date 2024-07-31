@@ -19,7 +19,7 @@ function CardNote(props) {
 
     return(
         
-            <div className="flex flex-col items-center justify-center m-1 w-60 h-80 rounded-xl text-white shadow p-3 bg-black opacity-90 hover:">
+            <div className="flex flex-col items-center justify-center m-1 w-60 h-80 rounded-xl text-white shadow p-3 bg-black opacity-90 hover:bg-stone-800">
                 <div className="basis-1/4 flex items-center justify-center w-full gap-2">
                     <div className="basis-11/12 flex items-center justify-center ">
                         <p className="border-b-2 border-yellow-400 px-9">{props.list.title}</p>

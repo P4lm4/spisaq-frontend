@@ -19,13 +19,12 @@ function Home() {
     }
     
     return(
-        <div className="flex flex-wrap items-center justify-around p-16 h-dvh bg-yellow-200  overflow-y-auto">
-             
-                <button onClick={createList} className="flex items-center justify-center w-60 h-80 rounded-xl text-3xl text-white shadow p-5 m4 bg-black cursor-pointer">
-                    <ion-icon name="add-outline"></ion-icon>             
-                </button>
-            {filteredList?.map((list, index) => <CardNote key={list.id} list={list} />)}
-        </div>
+    <div className="flex flex-wrap items-center justify-around p-16 h-dvh  overflow-y-auto">
+        <button onClick={createList} className="flex items-center justify-center w-60 h-80 rounded-xl text-3xl text-white shadow p-5 m4 bg-black cursor-pointer hover:bg-stone-800">
+            <ion-icon name="add-outline"></ion-icon>             
+        </button>
+        {filteredList?.map((list, index) => <CardNote key={list.id} list={list} />)}
+    </div>
     )
 }
 

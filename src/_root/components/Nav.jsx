@@ -24,7 +24,10 @@ function Nav () {
                 <span className="mr-1 text-3xl text-amber-400">
                     <ion-icon name="clipboard-outline"></ion-icon>
                 </span>
-                Spisa<span className="text-yellow-400">q</span>
+                <span className="text-lg md:text-3xl">
+                    Spisa<span className="text-yellow-400">q</span>
+                </span>
+                
             </Link>
         </div>
         <div className="flex items-center justify-center basis-2/4">
@@ -32,7 +35,7 @@ function Nav () {
             focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400" placeholder="Search items in this list" type="search" value={query} onChange={e => setQuery(e.target.value)} />
         </div>
         {user && (<div className="flex flex-row items-center justify-end basis-1/4 font-bold text-white">
-            <div className="text-sm flex-col items-center justify-center mr-2">
+            <div className="text-sm flex-col items-center justify-center mr-2 text:sm md:text-base">
                 <p>
                     {user.username}
                 </p>
@@ -40,7 +43,7 @@ function Nav () {
                     <Link onClick={signOut} to="/auth" className="hover:text-gray-300 duration-500">Sign out</Link>
                 </p>
             </div>
-            <div className="text-4xl text-amber-400 mx-1 pt-2">
+            <div className="text-4xl text-amber-400 mx-1 pt-2 hidden md:block">
                 <ion-icon name="person-circle-outline"></ion-icon>
             </div>
         </div>)}

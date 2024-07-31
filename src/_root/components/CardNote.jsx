@@ -25,13 +25,17 @@ function CardNote(props) {
                         <p className="border-b-2 border-yellow-400 px-9">{props.list.title}</p>
                     </div>
                     <div className="basis-1/12 pr-1">
-                        <button className="bg-red-700 hover:scale-110 duration-200 text-white rounded-sm px-2 pt-1 font-bold" onClick={deleteList}><ion-icon name="trash-bin-outline"></ion-icon></button>
+                        <button className="bg-red-700 hover:scale-110 duration-200 text-white rounded-sm px-2 pt-1 font-bold" onClick={deleteList}>
+                            <ion-icon name="trash-bin-outline"></ion-icon>
+                        </button>
                     </div>
                 </div>
 
                 <Link to={`/content/${props.list.id}`} className="basis-3/4 items-start p-3 justify-around bg-white opacity-80 rounded-xl w-full text-black">
-                    <ul className="text-wrap">
-                        {props.list.items.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).map((i, index) => <li key={i.id}>{i.completed ? "✅" : "⬛"}{i.text}</li>)}
+                    <ul className="text-wrap text-ellipsis overflow-hidden">
+                        {props.list.items.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).slice(0,8).map((i, index) => 
+                        <li key={i.id}>{i.completed ? "✅" : "⬛"}{i.text}</li>
+                        )}
                     </ul>
                 </Link>
             </div>

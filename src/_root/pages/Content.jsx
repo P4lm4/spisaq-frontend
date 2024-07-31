@@ -76,7 +76,7 @@ function Content() {
 
   return (
     <div className='flex h-dvh items-center justify-center pt-20'>
-      <div className="flex min-w-12 flex-col items-center justify-between  p-10 rounded-xl bg-black">
+      <div className="flex min-w-12 flex-col items-center justify-between p-10 m-2 rounded-xl bg-black">
         <div className='basis-1/3 min-w-12 flex flex-col items-center justify-center'>
           <div className='text-white text-xl border-b-2 border-yellow-400 w-full text-center py-2'>
             <EditableLabel text={openList.title} onEditDone={(newTitle)=> updateListName(openList,newTitle)}/>
@@ -92,7 +92,7 @@ function Content() {
         <div className='basis-2/3'>
           <ol className=''>
             {openList?.items?.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).map((item, index) =>
-              <li key={item.id} className='text-white flex flex-row items-center justify-between gap-8'>
+              <li key={item.id} className='text-white flex flex-row items-center justify-between gap-8 border-b-stone-500 border-b-2 border-opacity-40'>
                 <div>
                   <Checkbox check={item.completed} onChange={(completed) => checkBoxChange(item, completed)} />
                 </div>

@@ -18,7 +18,7 @@ async function loginUser(username, password) {
     body: JSON.stringify(requestData)
   })
     .then(data => data.json())
-    .catch(err => console.log(err))
+    .catch(err => alert("Wrong username or password!"))
 }
 
 function Login() {
@@ -36,8 +36,14 @@ const handleSubmit = async e => {
   setToken(data.token);
   setUser(data.user);
 
+  if(username !== data.username && password !== data.password) {
+    alert("Login susscessful!");
+  }
+
   navigate('/');
 }
+
+
 
 
 

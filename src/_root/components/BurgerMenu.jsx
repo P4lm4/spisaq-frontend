@@ -46,7 +46,7 @@ function BurgerMenu() {
                             <div className="hover:bg-yellow-600 rounded-md active:bg-yellow-500 hover:pr-2 p-1 mr-4 w-full" onClick={() => onMenuClick(item)} key={item.id}>
                                 <li className="my-1 flex items-center gap-2 text-ellipsis" >
                                     <ion-icon className="pr-2" name="clipboard-outline"></ion-icon>
-                                    <span className="text-ellipsis overflow-hidden w-64 border-b-stone-500 border-b-2 border-opacity-20">{item.title}</span>
+                                    <span className="tracking-tight truncate text-ellipsis overflow-hidden w-64 border-b-stone-500 border-b-2 border-opacity-20">{item.title}</span>
                                 </li>
                             </div>)}
                         </ul>

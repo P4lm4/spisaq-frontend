@@ -11,13 +11,12 @@ async function loginUser(username, password) {
     "password": password
   };
 
-
   return fetch(API_URL + 'login', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(requestData)
   })
-    .then(data => data.json())
+    .then(data=>data.json())
     .catch(err => alert("Wrong username or password!"))
 }
 
@@ -32,13 +31,8 @@ const handleSubmit = async e => {
   
   e.preventDefault();
   const data = await loginUser(username, password);
-  
   setToken(data.token);
   setUser(data.user);
-
-  if(username !== data.username && password !== data.password) {
-    alert("Login susscessful!");
-  }
 
   navigate('/');
 }

@@ -9,11 +9,13 @@ function CardNote(props) {
     const { refreshLists } = useContext(UserContext)
 
     function deleteList() {
+        if(confirm("Are you sure you want to delete the list")){
         authFetch(`list/${props.list.id}`, 'DELETE').then(()=>{
             refreshLists()
           }).catch(()=>{
             console.log('Brisanje nije uspjelo');
           })
+        }
     }
 
 

@@ -32,9 +32,12 @@ function CardNote(props) {
                 </div>
 
                 <Link to={`/content/${props.list.id}`} className="basis-3/4 items-start p-3 justify-around bg-white opacity-80 rounded-xl w-full text-black">
-                    <ul className="text-wrap text-ellipsis overflow-hidden">
+                    <ul className="max-w-md">
                         {props.list.items.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).slice(0,8).map((i, index) => 
-                        <li key={i.id}>{i.completed ? "✅" : "⬛"}{i.text}</li>
+                        <li className="flex" key={i.id}>
+                            {i.completed ? "✅" : "⬛"}
+                            <p className="tracking-tight truncate text-ellipsis overflow-hidden">{i.text}</p>
+                        </li>
                         )}
                     </ul>
                 </Link>

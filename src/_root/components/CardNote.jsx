@@ -21,8 +21,8 @@ function CardNote(props) {
         
             <div className="flex flex-col items-center justify-center m-1 w-60 h-80 rounded-xl text-white shadow p-3 bg-black opacity-90 hover:bg-stone-800">
                 <div className="basis-1/4 flex items-center justify-center w-full gap-2">
-                    <div className="basis-11/12 flex items-center justify-center ">
-                        <p className="border-b-2 border-yellow-400 px-9">{props.list.title}</p>
+                    <div className="basis-11/12 max-w-40 text-center">
+                        <p className="border-b-2 border-yellow-400 tracking-tight truncate text-ellipsis overflow-hidden">{props.list.title}</p>
                     </div>
                     <div className="basis-1/12 pr-1">
                         <button className="bg-red-700 hover:scale-110 duration-200 text-white rounded-sm px-2 pt-1 font-bold" onClick={deleteList}>

@@ -92,7 +92,7 @@ function Content() {
         <div className='basis-2/3'>
           <ol className=''>
             {openList?.items?.sort((t1,t2)=> t1.orderIndex - t2.orderIndex).map((item, index) =>
-              <li key={item.id} className='text-white flex flex-row items-center justify-between gap-8 border-b-stone-500 border-b-2 border-opacity-40'>
+              <li key={item.id} className='text-white flex flex-row items-center justify-between gap-8 border-b-stone-500 border-b-2 border-opacity-30'>
                 <div>
                   <Checkbox check={item.completed} onChange={(completed) => checkBoxChange(item, completed)} />
                 </div>

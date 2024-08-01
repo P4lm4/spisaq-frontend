@@ -1,14 +1,14 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 function AuthLayout() {
   return (
-  <div className='main-background'>
+    <div className="main-background">
       <section className="h-dvh overflow-y-auto">
         <Outlet />
       </section>
-  </div>
-  )
+    </div>
+  );
 }
 
-export default AuthLayout
+export default AuthLayout;

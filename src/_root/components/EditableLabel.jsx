@@ -17,38 +17,41 @@ function EditableLabel(props) {
   };
 
   const handleKeyDown = (e) => {
-    if(e.key === 'Enter') {
+    if (e.key === "Enter") {
       setIsEditing(false);
     }
   };
 
   useEffect(() => {
-    if(!isEditing) {
+    if (!isEditing) {
       props.onEditDone?.(text);
     }
-  }, [isEditing])
+  }, [isEditing]);
 
-
-return (
-  <div className="flex w-full">
-    {isEditing ? (
-      <input
-        className="text-black font-bold m-1"
-        type="text"
-        value={text}
-        onChange={handleInputChange}
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
-        autoFocus
-      />
-    ) : (
-      <div  className={`flex-1 mx-auto max-w-sm break-all  ${props.completed && 'line-through text-gray-700 text-left' }`} onClick={handleTextClick}>
-        <p className="tracking-tight font-bold text-balance">{props.text}</p>
-      </div>
-    )}
-  </div>
-)
-
+  return (
+    <div className="flex w-full">
+      {isEditing ? (
+        <input
+          className="text-black font-bold m-1"
+          type="text"
+          value={text}
+          onChange={handleInputChange}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          autoFocus
+        />
+      ) : (
+        <div
+          className={`flex-1 mx-auto max-w-sm break-all  ${
+            props.completed && "line-through text-gray-700 text-left"
+          }`}
+          onClick={handleTextClick}
+        >
+          <p className="tracking-tight font-bold text-balance">{props.text}</p>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default EditableLabel
+export default EditableLabel;

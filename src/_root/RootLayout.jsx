@@ -1,6 +1,6 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Nav from './components/Nav'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Nav from "./components/Nav";
 
 function RootLayout() {
   return (
@@ -10,7 +10,7 @@ function RootLayout() {
         <Outlet />
       </section>
     </div>
-  )
+  );
 }
 
-export default RootLayout
+export default RootLayout;

@@ -68,10 +68,10 @@ function Register() {
           focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400' placeholder='Confirm password' type="password"></input>
         </label>
         
-        <button type="submit" className='bg-yellow-400 rounded-xl mt-3 px-8  font-bold text-xl'>Sign up</button>
+        <button type="submit" className='bg-yellow-700 rounded-xl mt-3 px-8 p-1 font-bold text-xl'>Sign up</button>
         
       </form>
-      <button className='bg-yellow-400 rounded-xl px-4 border-black font-bold text-xl' onClick={() => navigate('/auth')}>Back</button>
+      <button className='bg-yellow-700 rounded-xl px-4 p-1 border-black font-bold text-xl' onClick={() => navigate('/auth')}>Back</button>
     </div>
   </div>
   )

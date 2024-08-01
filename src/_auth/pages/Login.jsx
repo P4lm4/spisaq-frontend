@@ -57,7 +57,7 @@ const handleSubmit = async e => {
             focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400' placeholder='Password' type="password"></input>
           </label>
           <div className='flex flex-col items-center justify-center'>
-            <button type="submit" className='bg-yellow-400 rounded-xl m-2 px-10 border-black font-bold text-xl'>Login</button>
+            <button type="submit" className='bg-yellow-700 rounded-xl m-2 p-1 px-10 border-black font-bold text-xl'>Login</button>
             <p>Don't have an account? <span><Link to="register"><span className='text-blue-700 underline'>Register</span></Link></span></p>
           </div>
         </form>
